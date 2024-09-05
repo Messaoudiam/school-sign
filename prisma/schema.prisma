@@ -31,6 +31,8 @@ model School {
   directorFirstName String
   directorLastName  String
   address   String
+  zipCode   String
+  city      String
   phone     String
   email     String   @unique
   password  String
