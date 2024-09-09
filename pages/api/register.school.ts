@@ -9,60 +9,58 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ message: "Method not allowed" });
-  }
+  if (req.method === "POST") {
+    // Parse and validate the request body
+    const result = registerSchoolSchema.safeParse(req.body);
 
-  // Parse and validate the request body
-  const result = registerSchoolSchema.safeParse(req.body);
+    if (!result.success) {
+      return res
+        .status(400)
+        .json({ message: "Invalid data", errors: result.error.issues });
+    }
 
-  if (!result.success) {
-    return res
-      .status(400)
-      .json({ message: "Invalid data", errors: result.error.issues });
-  }
+    const {
+      name,
+      directorFirstName,
+      directorLastName,
+      address,
+      zipCode,
+      city,
+      phone,
+      email,
+      password,
+      website,
+    } = result.data;
 
-  const {
-    name,
-    directorFirstName,
-    directorLastName,
-    address,
-    zipCode,
-    city,
-    phone,
-    email,
-    password,
-    website,
-  } = result.data;
+    if (password !== result.data.confirmPassword) {
+      return res.status(400).json({ message: "Passwords do not match" });
+    }
 
-  if (password !== result.data.confirmPassword) {
-    return res.status(400).json({ message: "Passwords do not match" });
-  }
+    try {
+      // Hash the password
+      const hashedPassword = await bcrypt.hash(password, 10);
 
-  try {
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
+      // Create the school entry in the database
+      const school = await prisma.school.create({
+        data: {
+          name,
+          directorFirstName,
+          directorLastName,
+          address,
+          zipCode,
+          city,
+          phone,
+          email,
+          password: hashedPassword,
+          website,
+          role: "SCHOOL", // Assuming "SCHOOL" is a valid role in your Role enum
+        },
+      });
 
-    // Create the school entry in the database
-    const school = await prisma.school.create({
-      data: {
-        name,
-        directorFirstName,
-        directorLastName,
-        address,
-        zipCode,
-        city,
-        phone,
-        email,
-        password: hashedPassword,
-        website,
-        role: "SCHOOL", // Assuming "SCHOOL" is a valid role in your Role enum
-      },
-    });
-
-    return res.status(201).json(school);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ message: "Internal server error" });
+      return res.status(201).json(school);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: "Internal server error" });
+    }
   }
 }

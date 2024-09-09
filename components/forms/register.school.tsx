@@ -3,6 +3,9 @@
 // react
 import { useState } from "react";
 
+// next
+import { useRouter } from "next/navigation";
+
 // ui
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -13,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { registerSchoolSchema } from "@/lib/schemas/register.school.schema";
 
 export default function RegisterSchoolForm() {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [directorFirstName, setDirectorFirstName] = useState("");
   const [directorLastName, setDirectorLastName] = useState("");
@@ -85,10 +89,10 @@ export default function RegisterSchoolForm() {
         // More specific error handling based on response codes/messages
         const errorMessage = await response.text();
         alert(`Error: ${errorMessage}`);
-
       }
     } catch (error) {
       alert(`Error: ${error}`);
+      router.push("/login");
     } finally {
       setLoading(false);
     }
@@ -193,9 +197,7 @@ export default function RegisterSchoolForm() {
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
               {error.confirmPassword && <p>{error.confirmPassword}</p>}
-              {password !== confirmPassword && (
-                <p>Passwords do not match</p>
-              )}
+              {password !== confirmPassword && <p>Passwords do not match</p>}
             </div>
             <div>
               <Label htmlFor="website">Website</Label>
