@@ -5,12 +5,12 @@ import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
-    <div>
-      <Link href="/login">
+    <div className="flex flex-col items-center justify-center h-screen gap-4">
+      <Link href="/school-login">
         <Button>Login</Button>
       </Link>
 
-      <Link href="/register">
+      <Link href="/school-register">
         <Button>Register</Button>
       </Link>
     </div>

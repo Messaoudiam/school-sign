@@ -7,7 +7,13 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 // ui
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -92,17 +98,18 @@ export default function RegisterSchoolForm() {
       }
     } catch (error) {
       alert(`Error: ${error}`);
-      router.push("/login");
+      router.push("/school-login");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div>
+    <div className=" w-96 flex flex-col p-4">
       <Card>
         <CardHeader>
           <CardTitle>Register School</CardTitle>
+          <CardDescription>Register a new school account</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit}>
@@ -113,7 +120,7 @@ export default function RegisterSchoolForm() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
-              {error.name && <p>{error.name}</p>}
+              {error.name && <p className="text-red-500">{error.name}</p>}
             </div>
             <div>
               <Label htmlFor="directorFirstName">Director First Name</Label>
@@ -122,7 +129,9 @@ export default function RegisterSchoolForm() {
                 value={directorFirstName}
                 onChange={(e) => setDirectorFirstName(e.target.value)}
               />
-              {error.directorFirstName && <p>{error.directorFirstName}</p>}
+              {error.directorFirstName && (
+                <p className="text-red-500">{error.directorFirstName}</p>
+              )}
             </div>
             <div>
               <Label htmlFor="directorLastName">Director Last Name</Label>
@@ -131,7 +140,9 @@ export default function RegisterSchoolForm() {
                 value={directorLastName}
                 onChange={(e) => setDirectorLastName(e.target.value)}
               />
-              {error.directorLastName && <p>{error.directorLastName}</p>}
+              {error.directorLastName && (
+                <p className="text-red-500">{error.directorLastName}</p>
+              )}
             </div>
             <div>
               <Label htmlFor="address">Address</Label>
@@ -140,7 +151,7 @@ export default function RegisterSchoolForm() {
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
               />
-              {error.address && <p>{error.address}</p>}
+              {error.address && <p className="text-red-500">{error.address}</p>}
             </div>
             <div>
               <Label htmlFor="zipCode">Zip Code</Label>
@@ -149,7 +160,7 @@ export default function RegisterSchoolForm() {
                 value={zipCode}
                 onChange={(e) => setZipCode(e.target.value)}
               />
-              {error.zipCode && <p>{error.zipCode}</p>}
+              {error.zipCode && <p className="text-red-500">{error.zipCode}</p>}
             </div>
             <div>
               <Label htmlFor="city">City</Label>
@@ -158,7 +169,7 @@ export default function RegisterSchoolForm() {
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
               />
-              {error.city && <p>{error.city}</p>}
+              {error.city && <p className="text-red-500">{error.city}</p>}
             </div>
             <div>
               <Label htmlFor="phone">Phone</Label>
@@ -167,7 +178,7 @@ export default function RegisterSchoolForm() {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
               />
-              {error.phone && <p>{error.phone}</p>}
+              {error.phone && <p className="text-red-500">{error.phone}</p>}
             </div>
             <div>
               <Label htmlFor="email">Email</Label>
@@ -176,7 +187,7 @@ export default function RegisterSchoolForm() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              {error.email && <p>{error.email}</p>}
+              {error.email && <p className="text-red-500">{error.email}</p>}
             </div>
             <div>
               <Label htmlFor="password">Password</Label>
@@ -186,7 +197,9 @@ export default function RegisterSchoolForm() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              {error.password && <p>{error.password}</p>}
+              {error.password && (
+                <p className="text-red-500">{error.password}</p>
+              )}
             </div>
             <div>
               <Label htmlFor="confirmPassword">Confirm Password</Label>
@@ -196,8 +209,12 @@ export default function RegisterSchoolForm() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
-              {error.confirmPassword && <p>{error.confirmPassword}</p>}
-              {password !== confirmPassword && <p>Passwords do not match</p>}
+              {error.confirmPassword && (
+                <p className="text-red-500">{error.confirmPassword}</p>
+              )}
+              {password !== confirmPassword && (
+                <p className="text-red-500">Passwords do not match</p>
+              )}
             </div>
             <div>
               <Label htmlFor="website">Website</Label>
@@ -206,9 +223,9 @@ export default function RegisterSchoolForm() {
                 value={website}
                 onChange={(e) => setWebsite(e.target.value)}
               />
-              {error.website && <p>{error.website}</p>}
+              {error.website && <p className="text-red-500">{error.website}</p>}
             </div>
-            <Button type="submit" disabled={loading}>
+            <Button type="submit" className="w-full mt-4" disabled={loading}>
               {loading ? "Registering..." : "Register"}
             </Button>
           </form>

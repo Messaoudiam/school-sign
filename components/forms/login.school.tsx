@@ -61,7 +61,7 @@ export default function LoginSchoolForm() {
   };
 
   return (
-    <div>
+    <div className=" w-96 flex flex-col p-4">
       <Card>
         <CardHeader>
           <CardTitle>Login</CardTitle>
@@ -89,7 +89,9 @@ export default function LoginSchoolForm() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <Button type="submit">Login</Button>
+            <Button type="submit" className="w-full mt-4">
+              Login
+            </Button>
           </form>
         </CardContent>
       </Card>
